@@ -1,6 +1,8 @@
 import socket
 
 addr = ('localhost', 8001)
+username = "Servidor"
+
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -13,6 +15,6 @@ while True:
     if not msg or msg.decode('utf-8') == '@':
         break
     print(msg.decode('utf-8'))
-    conn.sendall(bytes(input(), 'utf-8'))
+    conn.sendall(bytes(username + ": " + input(), 'utf-8'))
 conn.close()
 s.close()
