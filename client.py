@@ -1,6 +1,7 @@
 import socket
 import threading
 import os
+import time
 
 addr = ('localhost', 8001)
 username = input("Digite seu nome: ")
@@ -8,13 +9,20 @@ username = input("Digite seu nome: ")
 def aguarda_mensagem(s):
     while True:
         msg = (s.recv(1024)).decode('utf-8')
+        time.sleep(0.01)
         if not msg: break
-        print(msg)
+        msg_parsed = msg.split(":", 1)
+        if(len(msg_parsed) == 1):
+            print(msg)
+        else:
+            msg_parsed[1].replace(" ", "", 1)
+            print("\033[" + msg_parsed[0] + "m {}\033[00m".format(msg_parsed[1]))
     print("Ocorreu um erro com o servidor")
     return
 
 def envia_mensagem(s):
     while True:
+        time.sleep(0.01)
         msg = input()
         s.sendall(bytes(msg, 'utf-8'))
 
@@ -40,7 +48,7 @@ thread_envia_msg.start()
 s.sendall(bytes(username, 'utf-8'))
 
 while thread_aguarda_msg.is_alive():
-    pass
+    time.sleep(0.01)
 
 s.close()
 os._exit(1)
