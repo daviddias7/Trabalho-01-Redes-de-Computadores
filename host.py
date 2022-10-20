@@ -13,10 +13,14 @@ def envia_mensagem(msg, name):
         if c.name != name:
             c.conn.sendall(bytes(name + ": " + msg, 'utf-8'))
 
-def aguarda_mensagem(conn, name):
+def aguarda_mensagem(client):
     while True:
-        msg = (conn.recv(1024)).decode('utf-8')
-        envia_mensagem(msg, name.decode('utf-8'))
+        msg = (client.conn.recv(1024)).decode('utf-8')
+        if not msg: break
+        envia_mensagem(msg, client.name)
+    client_array.remove(client)
+    client.conn.close()
+
 
 # Cada cliente vai ter a conexao (socket) feita, o endereco ip e o nome do usuario
 # Para cada classe cliente, sera criada uma thread que aguardara a mensagem desse cliente
@@ -28,7 +32,7 @@ class Client:
         self.conn = conn
         self.addr = addr
         self.name = name.decode('utf-8')
-        thread_aguarda_mensagem = threading.Thread(target = aguarda_mensagem, args=(conn, name))
+        thread_aguarda_mensagem = threading.Thread(target = aguarda_mensagem, args=(self,))
         thread_aguarda_mensagem.start()
 
 
