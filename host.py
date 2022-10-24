@@ -22,14 +22,15 @@ def envia_mensagem(msg, origem):
     print(origem.name + ": " + msg)
     for c in client_array:
         if c.name != origem.name:
-            c.conn.sendall(bytes(origem.color + ":" + origem.name + ": " + msg, 'utf-8'))
+            c.conn.sendall(bytes(msg, 'utf-8'))
 
 def aguarda_mensagem(client):
     while True:
         msg = (client.conn.recv(1024)).decode('utf-8')
         time.sleep(0.01)
         if not msg: break
-        envia_mensagem(msg, client)
+        envia_mensagem(client.color + ":" + client.name + ": " + msg, client)
+    envia_mensagem(client.name + " se desconectou do chat", client)
     client_array.remove(client)
     client.conn.close()
 
@@ -58,8 +59,10 @@ while True:
     conn, client = s.accept() # aceita a conexao
     name = conn.recv(1024)
     time.sleep(0.01)
-    client_array.append(Client(conn, client, name, escolhe_cor()))
-    conn.sendall(bytes(name.decode('utf-8') + ' se conectou ao grupo', 'utf-8'))#ajeitar isso vai mandar nome: nome se conectou
+    new_client = Client(conn, client, name, escolhe_cor())
+    client_array.append(new_client)
+    #conn.sendall(bytes(name.decode('utf-8') + ' se conectou ao grupo', 'utf-8'))#ajeitar isso vai mandar nome: nome se conectou
+    envia_mensagem(new_client.name + " se conectou ao grupo", new_client)
 
 
 for c in client_array:

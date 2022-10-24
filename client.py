@@ -24,6 +24,7 @@ def envia_mensagem(s):
     while True:
         time.sleep(0.01)
         msg = input()
+        if(msg == "quit()"): return
         s.sendall(bytes(msg, 'utf-8'))
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -47,7 +48,7 @@ thread_envia_msg.start()
 
 s.sendall(bytes(username, 'utf-8'))
 
-while thread_aguarda_msg.is_alive():
+while thread_aguarda_msg.is_alive() and thread_envia_msg.is_alive():
     time.sleep(0.01)
 
 s.close()
