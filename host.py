@@ -1,21 +1,12 @@
 import socket
 import threading
 import time
+from chat_colors import *
 
 addr = ('localhost', 8001)
 username = "Servidor"
 
 client_array = []
-colors = ["31", "32", "33", "34", "35", "36", "37", "90", "91", "92", "93", "94", "96", "97"]
-index = 0
-
-def escolhe_cor():
-    global index
-    cor = colors[index]
-    index+=1
-    if index == 14:
-        index = 0
-    return cor
 
 #Enviar a mensagem de um cliente para todos os outros clientes
 def envia_mensagem(msg, origem):
@@ -55,13 +46,14 @@ s.bind(addr) # associa a socket a esse endereco
 
 s.listen() # aguarda uma conexao
 
+c = Colors()
 while True:
     conn, client = s.accept() # aceita a conexao
     name = conn.recv(1024)
     time.sleep(0.01)
-    new_client = Client(conn, client, name, escolhe_cor())
+
+    new_client = Client(conn, client, name, c.get_color())
     client_array.append(new_client)
-    #conn.sendall(bytes(name.decode('utf-8') + ' se conectou ao grupo', 'utf-8'))#ajeitar isso vai mandar nome: nome se conectou
     envia_mensagem(new_client.name + " se conectou ao grupo", new_client)
 
 
