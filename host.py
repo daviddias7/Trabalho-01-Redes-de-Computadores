@@ -10,7 +10,7 @@ client_array = []
 
 #Enviar a mensagem de um cliente para todos os outros clientes
 def envia_mensagem(msg, origem):
-    print(origem.name + ": " + msg)
+    print(msg)
     for c in client_array:
         if c.name != origem.name:
             c.conn.sendall(bytes(msg, 'utf-8'))
@@ -56,8 +56,5 @@ while True:
     client_array.append(new_client)
     envia_mensagem(new_client.name + " se conectou ao grupo", new_client)
 
-
-for c in client_array:
-    c.conn.close()
 
 s.close()
