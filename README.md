@@ -20,3 +20,9 @@ Feito em Debian 11, usando python 3.9.2.
 
 # Controle de falhas
 Caso o servidor desligue, o servidor se desconecte, ocorre timeout ou falha qualquer no inicio da comunicação do servidor, esses erros são tratados.
+
+# Dependências
+Necessário a biblioteca pycryptodome
+Para instalar basta usar o seguinte comando no terminal
+
+`pip install pycryptodome`
