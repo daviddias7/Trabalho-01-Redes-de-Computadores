@@ -2,11 +2,11 @@
 
 David Felipe Santos e Souza Dias - 11800611
 
-Emerson
+Emerson Pereira Portela Filho - 11800625
 
-Guilherme
+Guilherme Azevedo Escudeiro - 11345600
 
-Vitor
+Vitor Favrin Carrera Miguel - 11800646
 
 # Descrição da Aplicação
 Chatroom feita para computadores em uma mesma rede.
